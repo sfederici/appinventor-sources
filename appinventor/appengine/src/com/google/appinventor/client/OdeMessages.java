@@ -4682,7 +4682,11 @@ public interface OdeMessages extends Messages {
   @DefaultMessage("繁体中文")
   @Description("")
   String SwitchToTraditionalChinese();
-  
+
+  @DefaultMessage("Español")
+  @Description("")
+  String SwitchToSpanish();
+
   @DefaultMessage("Progress Bar")
   @Description("")
   String ProgressBarFor();

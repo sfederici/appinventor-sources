@@ -203,6 +203,8 @@ public class TopToolbar extends Composite {
           nativeName = MESSAGES.SwitchToSimplifiedChinese();
         } else if (localeName == "zh_TW") {
           nativeName = MESSAGES.SwitchToTraditionalChinese();
+        } else if (localeName == "es_ES") {
+          nativeName = MESSAGES.SwitchToSpanish();
         }
         languageItems.add(new DropDownItem(WIDGET_NAME_LANGUAGE, nativeName, lang));
       }
@@ -253,7 +255,6 @@ public class TopToolbar extends Composite {
     toolbar.add(connectDropDown);
     toolbar.add(buildDropDown);
 
-    // Commented out language switching until we have a clean Chinese translation. (AFM)
     toolbar.add(languageDropDown);
     toolbar.add(helpDropDown);
 
