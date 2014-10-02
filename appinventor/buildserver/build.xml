@@ -85,8 +85,9 @@
     <!-- Sphero library added by Gareth Haylings 29/06/2014 -->
     <copy toFile="${classes.files.dir}/RobotLibrary.jar" file="${lib.dir}/sphero/RobotLibrary.jar" />
     <!-- Not sure how to add the following lib file -->
-    <copy toFile="${classes.files.dir}/libachievement_manager.so" file="${lib.dir}/sphero/libachievement_manager.so" />
-    
+    <mkdir dir="${classes.files.dir}/armeabi-v7a" />
+    <copy toFile="${classes.files.dir}/armeabi-v7a/libachievement_manager.so" file="${lib.dir}/sphero/libachievement_manager.so" />
+
     <property name="classes.tools.dir" location="${BuildServer-class.dir}/tools" />
     <copy todir="${classes.tools.dir}">
       <fileset dir="${lib.dir}/android/tools" includes="*/aapt" />

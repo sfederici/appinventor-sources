@@ -782,10 +782,16 @@ public abstract class ComponentProcessor extends AbstractProcessor {
     UsesNativeLibraries usesNativeLibraries = element.getAnnotation(UsesNativeLibraries.class);
     if (usesNativeLibraries != null) {
       for (String nativeLibrary : usesNativeLibraries.libraries().split(",")) {
-        componentInfo.nativeLibraries.add(nativeLibrary.trim());
+        if (!nativeLibrary.trim().equals("")) {
+          System.err.println("nativeLibrary = " + nativeLibrary);
+          componentInfo.nativeLibraries.add(nativeLibrary.trim());
+        }
       }
       for (String v7aLibrary : usesNativeLibraries.v7aLibraries().split(",")) {
-        componentInfo.nativeLibraries.add(v7aLibrary.trim() + ARMEABI_V7A_SUFFIX);
+        if (!v7aLibrary.trim().equals("")) {
+          System.err.println("v7nativeLibrary = " + v7aLibrary);
+          componentInfo.nativeLibraries.add(v7aLibrary.trim() + ARMEABI_V7A_SUFFIX);
+        }
       }
     }
 

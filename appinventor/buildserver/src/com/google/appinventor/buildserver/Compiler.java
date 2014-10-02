@@ -1075,6 +1075,7 @@ public final class Compiler {
      */
     try {
       for (String library : nativeLibrariesNeeded) {
+        System.err.println("NativeLibrary: " + library);
         if (library.endsWith(ARMEABI_V7A_SUFFIX)) { // Remove suffix and copy.
           library = library.substring(0, library.length() - ARMEABI_V7A_SUFFIX.length());
           Files.copy(new File(getResource(RUNTIME_FILES_DIR + ARMEABI_V7A_DIRECTORY +
@@ -1118,6 +1119,7 @@ public final class Compiler {
    * @param resourcePath the name of the resource
    */
   static synchronized String getResource(String resourcePath) {
+    System.err.println("getResource: called with " + resourcePath);
     try {
       File file = resources.get(resourcePath);
       if (file == null) {
@@ -1139,6 +1141,7 @@ public final class Compiler {
         file.setExecutable(true);
         file.deleteOnExit();
         file.getParentFile().mkdirs();
+        System.err.println("File.copy " + Compiler.class.getResource(resourcePath));
         Files.copy(Resources.newInputStreamSupplier(Compiler.class.getResource(resourcePath)),
             file);
         resources.put(resourcePath, file);
