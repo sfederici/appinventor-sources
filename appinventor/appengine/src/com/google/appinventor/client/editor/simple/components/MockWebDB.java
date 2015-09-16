@@ -12,19 +12,18 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Mock for the non-visible FirebaseDB component. This needs a separate mock
+ * Mock for the non-visible WebDB component. This needs a separate mock
  * from other non-visible components so that some of its properties can be
  * given dynamic default values.
  *
  * @author will2596@gmail.com (William Byrne)
  */
-public class MockFirebaseDB extends MockNonVisibleComponent {
+public class MockWebDB extends MockNonVisibleComponent {
 
-  public static final String TYPE = "FirebaseDB";
+  public static final String TYPE = "WebDB";
   private static final String PROPERTY_NAME_DEVELOPER_BUCKET = "DeveloperBucket";
   private static final String PROPERTY_NAME_PROJECT_BUCKET = "ProjectBucket";
   private static final String PROPERTY_NAME_FIREBASE_TOKEN = "FirebaseToken";
-  private static final Ode ODE = Ode.getInstance();
   private static final FirebaseAuthServiceAsync AUTH_SVC = GWT.create(FirebaseAuthService.class);
 
   /**
@@ -35,7 +34,7 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
    * @param type
    * @param iconImage
    */
-  public MockFirebaseDB(SimpleEditor editor, String type, Image iconImage) {
+  public MockWebDB(SimpleEditor editor, String type, Image iconImage) {
     super(editor, type, iconImage);
   }
 
@@ -43,18 +42,18 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
    * Initializes the "ProjectBucket", "DeveloperBucket", "FirebaseToken"
    * properties dynamically.
    *
-   * @param widget the iconImage for the MockFirebaseDB
+   * @param widget the iconImage for the MockWebDB
    */
   @Override
   public final void initComponent(Widget widget) {
     super.initComponent(widget);
 
-    String devBucket = ODE.getUser().getUserEmail().replace(".", ":") + "";
+    String devBucket = Ode.getInstance().getUser().getUserEmail().replace(".", ":") + "";
     String projectName = "";
 
     // Make sure the FileEditor has loaded before attempting to
     // retrieve the projectName
-    FileEditor curr = ODE.getCurrentFileEditor();
+    FileEditor curr = Ode.getInstance().getCurrentFileEditor();
     if(curr != null) {
       projectName = curr.getFileId().split("/")[3];
     }
@@ -70,7 +69,7 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
 
       @Override
       public void onFailure(Throwable caught) {
-        OdeLog.elog("Failed to create FirebaseDB JWT!");
+        OdeLog.elog("Failed to create WebDB JWT!");
       }
     };
 

@@ -353,7 +353,7 @@ public class YaVersion {
   // - FORM_COMPONENT_VERSION was incremented to 18.
   // - MEDIASTORE_COMPONENT_VERSION was incremented to 1
   // For YOUNG_ANDROID_VERSION 138:
-  // - FIREBASE_COMPONENT_VERSION was incremented to 1
+  // - WebDB_COMPONENT_VERSION was incremented to 1
 
   public static final int YOUNG_ANDROID_VERSION = 138;
 
@@ -869,9 +869,9 @@ public class YaVersion {
   // - The TinyWebDB.ShowAlert method was removed. Notifier.ShowAlert should be used instead.
   public static final int TINYWEBDB_COMPONENT_VERSION = 2;
 
-  // // For FIREBASE_COMPONENT_VERSION 1:
-  // - FirebaseDB component introduced
-  public static final int FIREBASE_COMPONENT_VERSION = 1;
+  // // For WebDB_COMPONENT_VERSION 1:
+  // - WebDB component introduced
+  public static final int WebDB_COMPONENT_VERSION = 1;
 
   // For TWITTER_COMPONENT_VERSION 2:
   // - The Authorize method and IsAuthorized event handler were added to support

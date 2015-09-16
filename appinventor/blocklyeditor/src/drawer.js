@@ -421,7 +421,7 @@ Blockly.Drawer.defaultBlockXMLStrings = {
          '</block>' +
          '</xml>';}},
 
-    {matchingMutatorAttributes:{component_type:"FirebaseDB", method_name:"GetValue"},
+    {matchingMutatorAttributes:{component_type:"WebDB", method_name:"GetValue"},
       mutatorXMLStringFunction: function(mutatorAttributes) {
         return '' +
             '<xml>' +

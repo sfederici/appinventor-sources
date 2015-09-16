@@ -308,8 +308,8 @@ public class TranslationDesignerPallete {
       value = MESSAGES.WebViewerHelpStringComponentPallette();
     } else if (key.equals("YandexTranslate-helpString")) {
       value = MESSAGES.YandexTranslateHelpStringComponentPallette();
-    } else if (key.equals("FirebaseDB-helpString")) {
-      value = MESSAGES.FirebaseDBHelpStringComponentPallette();
+    } else if (key.equals("WebDB-helpString")) {
+      value = MESSAGES.WebDBHelpStringComponentPallette();
     }
     return value;
   }

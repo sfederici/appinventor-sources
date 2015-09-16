@@ -36,16 +36,21 @@ public class FirebaseAuthServiceImpl extends OdeRemoteServiceServlet
 
     // Create a TokenGenerator with the App Inventor Firebase Secret
     String secret = Flag.createFlag("firebase.secret", "").get();
-    TokenGenerator tokenGen = new TokenGenerator(secret);
+    if(!secret.equals("")) {
+      TokenGenerator tokenGen = new TokenGenerator(secret);
 
-    // We need the token to last for the foreseeable future. It would not be
-    // feasible to require the end users of App Inventor apps to make
-    // requests to the Auth servlet on a regular basis.
-    TokenOptions expiration = new TokenOptions();
-    Calendar future = Calendar.getInstance();
-    future.set(Calendar.YEAR, 2500);
-    expiration.setExpires(future.getTime());
+      // We need the token to last for the foreseeable future. It would not be
+      // feasible to require the end users of App Inventor apps to make
+      // requests to the Auth servlet on a regular basis.
+      TokenOptions expiration = new TokenOptions();
+      Calendar future = Calendar.getInstance();
+      future.set(Calendar.YEAR, 2500);
+      expiration.setExpires(future.getTime());
 
-    return tokenGen.createToken(payload, expiration); // return a JWT containing the payload
+      return tokenGen.createToken(payload, expiration); // return a JWT containing the payload
+    }
+
+
+    return ""; // return the empty string if no Firebase Secret was specified
   }
 }

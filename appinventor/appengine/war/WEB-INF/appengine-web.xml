@@ -94,7 +94,7 @@
     <property name="wifi.enabled" value="true" />
 
     <!-- Firebase Secret for the shared datastore -->
-    <property name="firebase.secret" value="hOUUPiTkuKkJLg2nG4wEoWfF6eGaf0dV1ZQETUvp" />
+    <property name="firebase.secret" value="" />
 
     <property name="library.url" value="http://appinventor.mit.edu/explore/library" />
     <property name="get_started.url" value="http://appinventor.mit.edu/explore/get-started" />
