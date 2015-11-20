@@ -73,7 +73,7 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
       }
     };
 
-    AUTH_SVC.getToken(devBucket, projectName, callback);
+    AUTH_SVC.getToken(projectName, callback);
   }
 
   /**

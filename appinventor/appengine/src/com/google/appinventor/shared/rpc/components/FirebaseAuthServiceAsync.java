@@ -9,5 +9,5 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface FirebaseAuthServiceAsync {
 
-  void getToken(String developer, String project, AsyncCallback<String> callback);
+  void getToken(String project, AsyncCallback<String> callback);
 }

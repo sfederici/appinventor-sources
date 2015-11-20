@@ -12,5 +12,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath(ServerLayout.FIREBASE_AUTH_SERVICE)
 public interface FirebaseAuthService extends RemoteService {
 
-  String getToken(String developer, String project);
+  String getToken(String project);
 }

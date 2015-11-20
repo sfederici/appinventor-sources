@@ -28,9 +28,10 @@ public class FirebaseAuthServiceImpl extends OdeRemoteServiceServlet
    * @return a JWT containing developer and project
    *         information for the Firebase App
    */
-  public String getToken(String developer, String project) {
+  public String getToken(String project) {
     Map<String, Object> payload = new HashMap<String, Object>();
-    payload.put("developer", developer);
+    String authenticatedDeveloper = userInfoProvider.getUserEmail().replace(".", ":") + "";
+    payload.put("developer", authenticatedDeveloper);
     payload.put("project", project);
     payload.put("uid", "" + UUID.randomUUID());
 
@@ -49,8 +50,6 @@ public class FirebaseAuthServiceImpl extends OdeRemoteServiceServlet
 
       return tokenGen.createToken(payload, expiration); // return a JWT containing the payload
     }
-
-
     return ""; // return the empty string if no Firebase Secret was specified
   }
 }
