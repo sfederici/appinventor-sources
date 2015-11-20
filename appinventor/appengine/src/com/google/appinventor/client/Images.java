@@ -358,10 +358,10 @@ public interface Images extends Resources {
   ImageResource tinyWebDB();
 
   /**
-   * Designer palette item: WebDB Component
+   * Designer palette item: FirebaseDB Component
    */
-  @Source("com/google/appinventor/images/webDB.png")
-  ImageResource webDB();
+  @Source("com/google/appinventor/images/firebaseDB.png")
+  ImageResource firebaseDB();
 
   /**
    * Designer palette item: TextToSpeech component

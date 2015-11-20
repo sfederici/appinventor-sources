@@ -36,7 +36,7 @@ import android.os.Handler;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * The WebDB component communicates with a Web service to store
+ * The Firebase component communicates with a Web service to store
  * and retrieve information.  The component has methods to
  * store a value under a tag and to retrieve the value associated with
  * the tag. It also possesses a listener to fire events when stored
@@ -46,20 +46,20 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author will2596@gmail.com (William Byrne) (default Firebase partitioning and user authentication)
  */
 
-@DesignerComponent(version = YaVersion.WebDB_COMPONENT_VERSION,
-    description = "Non-visible component that communicates with a Firebase to store and " +
+@DesignerComponent(version = YaVersion.FIREBASE_COMPONENT_VERSION,
+    description = "Non-visible component that communicates with Firebase to store and " +
     "retrieve information.",
     designerHelpDescription = "Non-visible component that communicates with a Firebase" +
         " to store and retrieve information.",
     category = ComponentCategory.STORAGE,
     nonVisible = true,
-    iconName = "images/webDB.png")
+    iconName = "images/firebaseDB.png")
 @SimpleObject
 @UsesPermissions(permissionNames = "android.permission.INTERNET")
 @UsesLibraries(libraries = "firebase.jar")
-public class WebDB extends AndroidNonvisibleComponent implements Component {
+public class FirebaseDB extends AndroidNonvisibleComponent implements Component {
 
-  private static final String LOG_TAG = "WebDB";
+  private static final String LOG_TAG = "Firebase";
   private static final String DEFAULT_URL =
       "";
 
@@ -73,11 +73,11 @@ public class WebDB extends AndroidNonvisibleComponent implements Component {
   private ChildEventListener childListener;
 
   /**
-   * Creates a new WebDB component.
+   * Creates a new Firebase component.
    *
    * @param container the Form that this component is contained in.
    */
-  public WebDB(ComponentContainer container) {
+  public FirebaseDB(ComponentContainer container) {
     super(container.$form());
     // We use androidUIHandler when we set up operations that run asynchronously 
     // in a separate thread, but which themselves want to cause actions
@@ -144,29 +144,26 @@ public class WebDB extends AndroidNonvisibleComponent implements Component {
       }
     };
 
-    // Only add an Auth Listener if we are using the default Firebase
-    if(!firebaseToken.equals("")) {
-      Firebase.AuthStateListener authListener = new Firebase.AuthStateListener() {
-        @Override
-        public void onAuthStateChanged(AuthData data) {
-          if (data == null) {
-            myFirebase.authWithCustomToken(firebaseToken, new Firebase.AuthResultHandler() {
-              @Override
-              public void onAuthenticated(AuthData authData) {
-                Log.i(LOG_TAG, "Auth Successful.");
-              }
+    Firebase.AuthStateListener authListener = new Firebase.AuthStateListener() {
+      @Override
+      public void onAuthStateChanged(AuthData data) {
+        if (data == null) {
+          myFirebase.authWithCustomToken(firebaseToken, new Firebase.AuthResultHandler() {
+            @Override
+            public void onAuthenticated(AuthData authData) {
+              Log.i(LOG_TAG, "Auth Successful.");
+            }
 
-              @Override
-              public void onAuthenticationError(FirebaseError error) {
-                Log.e(LOG_TAG, "Auth Failed: " + error.getMessage());
-              }
-            });
-          }
+            @Override
+            public void onAuthenticationError(FirebaseError error) {
+              Log.e(LOG_TAG, "Auth Failed: " + error.getMessage());
+            }
+          });
         }
-      };
-      myFirebase.addAuthStateListener(authListener);
-    }
+      }
+    };
 
+    myFirebase.addAuthStateListener(authListener);
     myFirebase.addChildEventListener(childListener);
   }
 
@@ -209,7 +206,7 @@ public class WebDB extends AndroidNonvisibleComponent implements Component {
 
   /**
    * Specifies the unique developer path of the Firebase. This is set programmatically
-   * in {@link com.google.appinventor.client.editor.simple.components.MockWebDB}
+   * in {@link com.google.appinventor.client.editor.simple.components.MockFirebaseDB}
    * and consists of the current App Inventor user's email.
    *
    * @param bucket the name of the developer's bucket

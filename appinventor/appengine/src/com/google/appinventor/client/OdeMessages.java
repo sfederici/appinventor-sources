@@ -5316,7 +5316,7 @@ public interface OdeMessages extends Messages {
       "Otherwise, you can specify the URL for your own Firebase in the \"FirebaseURL\" property. " +
       "Learn more at <a target=\"_blank\" href=\"http://www.firebase.com\">Firebase.com</a>.")
   @Description("")
-  String WebDBHelpStringComponentPallette();
+  String FirebaseDBHelpStringComponentPallette();
 
 
   //Ode.java messages

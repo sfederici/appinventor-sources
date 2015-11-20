@@ -12,15 +12,15 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Mock for the non-visible WebDB component. This needs a separate mock
+ * Mock for the non-visible FirebaseDB component. This needs a separate mock
  * from other non-visible components so that some of its properties can be
  * given dynamic default values.
  *
  * @author will2596@gmail.com (William Byrne)
  */
-public class MockWebDB extends MockNonVisibleComponent {
+public class MockFirebaseDB extends MockNonVisibleComponent {
 
-  public static final String TYPE = "WebDB";
+  public static final String TYPE = "FirebaseDB";
   private static final String PROPERTY_NAME_DEVELOPER_BUCKET = "DeveloperBucket";
   private static final String PROPERTY_NAME_PROJECT_BUCKET = "ProjectBucket";
   private static final String PROPERTY_NAME_FIREBASE_TOKEN = "FirebaseToken";
@@ -34,7 +34,7 @@ public class MockWebDB extends MockNonVisibleComponent {
    * @param type
    * @param iconImage
    */
-  public MockWebDB(SimpleEditor editor, String type, Image iconImage) {
+  public MockFirebaseDB(SimpleEditor editor, String type, Image iconImage) {
     super(editor, type, iconImage);
   }
 
@@ -42,7 +42,7 @@ public class MockWebDB extends MockNonVisibleComponent {
    * Initializes the "ProjectBucket", "DeveloperBucket", "FirebaseToken"
    * properties dynamically.
    *
-   * @param widget the iconImage for the MockWebDB
+   * @param widget the iconImage for the MockFirebaseDB
    */
   @Override
   public final void initComponent(Widget widget) {
@@ -69,7 +69,7 @@ public class MockWebDB extends MockNonVisibleComponent {
 
       @Override
       public void onFailure(Throwable caught) {
-        OdeLog.elog("Failed to create WebDB JWT!");
+        OdeLog.elog("Failed to create FirebaseDB JWT!");
       }
     };
 

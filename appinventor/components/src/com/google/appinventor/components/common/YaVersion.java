@@ -876,9 +876,9 @@ public class YaVersion {
   // - The TinyWebDB.ShowAlert method was removed. Notifier.ShowAlert should be used instead.
   public static final int TINYWEBDB_COMPONENT_VERSION = 2;
 
-  // // For WebDB_COMPONENT_VERSION 1:
-  // - WebDB component introduced
-  public static final int WebDB_COMPONENT_VERSION = 1;
+  // // For FIREBASE_COMPONENT_VERSION 1:
+  // - FirebaseDB component introduced
+  public static final int FIREBASE_COMPONENT_VERSION = 1;
 
   // For TWITTER_COMPONENT_VERSION 2:
   // - The Authorize method and IsAuthorized event handler were added to support
