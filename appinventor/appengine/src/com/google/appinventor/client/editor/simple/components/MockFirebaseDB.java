@@ -1,3 +1,8 @@
+// -*- mode: java; c-basic-offset: 2; -*-
+// Copyright 2015 MIT, All rights reserved
+// Released under the Apache License, Version 2.0
+// http://www.apache.org/licenses/LICENSE-2.0
+
 package com.google.appinventor.client.editor.simple.components;
 
 import com.google.appinventor.client.Ode;
@@ -25,6 +30,7 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
   private static final String PROPERTY_NAME_PROJECT_BUCKET = "ProjectBucket";
   private static final String PROPERTY_NAME_FIREBASE_TOKEN = "FirebaseToken";
   private static final FirebaseAuthServiceAsync AUTH_SVC = GWT.create(FirebaseAuthService.class);
+  private static boolean warningGiven = false; // Whether or not we have given experimental warning
 
   /**
    * Creates a new instance of a non-visible component whose icon is
@@ -74,6 +80,21 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
     };
 
     AUTH_SVC.getToken(projectName, callback);
+  }
+
+  /**
+   * Called when the component is dropped in the Designer window
+   * we give a warning that firebase is still experimental.
+   */
+
+  @Override
+  public void onCreateFromPalette() {
+    if (!warningGiven) {
+      warningGiven = true;
+      Ode.getInstance().warningDialog("There be Dragons here!", "FirebaseDB is an experimental feature " +
+        "which may change in the future or break. Packaged Apps built with this component may not " +
+        "function into the indefinite future.", "OK");
+    }
   }
 
   /**
