@@ -71,6 +71,7 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
   private final Activity activity;
   private Firebase myFirebase;
   private ChildEventListener childListener;
+  private Firebase.AuthStateListener authListener;
 
   /**
    * Creates a new Firebase component.
@@ -91,7 +92,8 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
     developerBucket = ""; // set dynamically in the Designer
     projectBucket = ""; // given a dynamic default value in the Designer
     firebaseToken = ""; // set dynamically in the Designer
-    myFirebase = new Firebase(firebaseURL + "developers/" + developerBucket + projectBucket);
+    //    jis: Commented out.
+    //    myFirebase = new Firebase(firebaseURL + "developers/" + developerBucket + projectBucket);
 
     childListener = new ChildEventListener() {
       // Retrieve new posts as they are added to the Firebase.
@@ -144,7 +146,7 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
       }
     };
 
-    Firebase.AuthStateListener authListener = new Firebase.AuthStateListener() {
+    authListener = new Firebase.AuthStateListener() {
       @Override
       public void onAuthStateChanged(AuthData data) {
         if (data == null) {
@@ -163,8 +165,8 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
       }
     };
 
-    myFirebase.addAuthStateListener(authListener);
-    myFirebase.addChildEventListener(childListener);
+    //    myFirebase.addAuthStateListener(authListener);
+    //    myFirebase.addChildEventListener(childListener);
   }
 
   /**
@@ -267,7 +269,10 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
   
   private void resetListener() {
     // remove listeners from the old Firebase path
-    myFirebase.removeEventListener(childListener);
+    if (myFirebase != null) {
+      myFirebase.removeEventListener(childListener);
+      myFirebase.removeAuthStateListener(authListener);
+    }
 
     if(firebaseURL.equals(DEFAULT_URL)) {
       myFirebase = new Firebase(firebaseURL + "developers/" + developerBucket + projectBucket);
@@ -277,6 +282,7 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
 
     // add listeners to the new Firebase path
     myFirebase.addChildEventListener(childListener);
+    myFirebase.addAuthStateListener(authListener);
   }
 
   /*

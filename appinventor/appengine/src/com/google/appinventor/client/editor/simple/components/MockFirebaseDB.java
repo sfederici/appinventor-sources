@@ -55,14 +55,7 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
     super.initComponent(widget);
 
     String devBucket = Ode.getInstance().getUser().getUserEmail().replace(".", ":") + "";
-    String projectName = "";
-
-    // Make sure the FileEditor has loaded before attempting to
-    // retrieve the projectName
-    FileEditor curr = Ode.getInstance().getCurrentFileEditor();
-    if(curr != null) {
-      projectName = curr.getFileId().split("/")[3];
-    }
+    String projectName = Ode.getInstance().getDesignToolbar().getCurrentProject().name;
 
     changeProperty(PROPERTY_NAME_DEVELOPER_BUCKET, devBucket + "/");
     changeProperty(PROPERTY_NAME_PROJECT_BUCKET, projectName);
