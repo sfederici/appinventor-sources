@@ -351,11 +351,17 @@ public class YaVersion {
   // - FORM_COMPONENT_VERSION was incremented to 17.
   // For YOUNG_ANDROID_VERSION 137:
   // - FORM_COMPONENT_VERSION was incremented to 18.
-  // - MEDIASTORE_COMPONENT_VERSION was incremented to 1
   // For YOUNG_ANDROID_VERSION 138:
-  // - WebDB_COMPONENT_VERSION was incremented to 1
+  // - MEDIASTORE_COMPONENT_VERSION was incremented to 1
+  // For YOUNG_ANDROID_VERSION 139:
+  // - Reserved for FIRST Tech Challenge.
+  // For YOUNG_ANDROID_VERSION 140:
+  // - HORIZONTALARRANGEMENT_COMPONENT_VERSION was incremented to 3.
+  // - VERTICALARRANGEMENT_COMPONENT_VERSION was incremented to 3
+  // For YOUNG_ANDROID_VERSION 141:
+  // - FIREBASE_COMPONENT_VERSION was incremented to 1
 
-  public static final int YOUNG_ANDROID_VERSION = 138;
+  public static final int YOUNG_ANDROID_VERSION = 141;
 
   // ............................... Blocks Language Version Number ...............................
 
@@ -651,7 +657,8 @@ public class YaVersion {
   // For HORIZONTALARRANGEMENT_COMPONENT_VERSION 2:
   // - The AlignHorizontal property was added
   // - The AlignVertical property was added
-  public static final int HORIZONTALARRANGEMENT_COMPONENT_VERSION = 2;
+  // - Added background color & image
+  public static final int HORIZONTALARRANGEMENT_COMPONENT_VERSION = 3;
 
   public static final int IMAGE_COMPONENT_VERSION = 1;
 
@@ -904,7 +911,8 @@ public class YaVersion {
   // For VERTICALARRANGEMENT_COMPONENT_VERSION 2:
   // - The AlignHorizontal property was added
   // - The AlignVertical property was added
-  public static final int VERTICALARRANGEMENT_COMPONENT_VERSION = 2;
+  // - Added background color & image
+  public static final int VERTICALARRANGEMENT_COMPONENT_VERSION = 3;
 
   // For VIDEOPLAYER_COMPONENT_VERSION 2:
   // - The VideoPlayer.VideoPlayerError event was added.
@@ -972,10 +980,10 @@ public class YaVersion {
   // key as the Companion it is replacing, as the Package Manager
   // is invoked from the running Companion.
 
-  public static final String PREFERRED_COMPANION = "2.33";
+  public static final String PREFERRED_COMPANION = "2.35";
   public static final String COMPANION_UPDATE_URL = "";
   public static final String COMPANION_UPDATE_URL1 = "";
-  public static final String [] ACCEPTABLE_COMPANIONS = { "2.33" };
+  public static final String [] ACCEPTABLE_COMPANIONS = { "2.35" };
 
   // Splash Screen Values
   public static final int SPLASH_SURVEY = 1;
