@@ -5,6 +5,7 @@
 
 package com.google.appinventor.client.editor.simple.components;
 
+import com.google.appinventor.client.DesignToolbar;
 import com.google.appinventor.client.Ode;
 import com.google.appinventor.client.editor.FileEditor;
 import com.google.appinventor.client.editor.simple.SimpleEditor;
@@ -55,7 +56,11 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
     super.initComponent(widget);
 
     String devBucket = Ode.getInstance().getUser().getUserEmail().replace(".", ":") + "";
-    String projectName = Ode.getInstance().getDesignToolbar().getCurrentProject().name;
+    DesignToolbar.DesignProject currentProject = Ode.getInstance().getDesignToolbar().getCurrentProject();
+    String projectName = "";
+    if (currentProject != null) {
+      projectName = currentProject.name;
+    }
 
     changeProperty(PROPERTY_NAME_DEVELOPER_BUCKET, devBucket + "/");
     changeProperty(PROPERTY_NAME_PROJECT_BUCKET, projectName);
