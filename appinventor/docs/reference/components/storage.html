@@ -456,6 +456,7 @@
 <h2>Table of Contents</h2>
 <ul>
   <li> <a href="#File"> File </a> </li>
+  <li> <a href="#FirebaseDB">FirebaseDB</a></li>
   <li> <a href="#FusionTablesControl"> FusionTablesControl </a> </li>
   <li> <a href="#TinyDB"> TinyDB </a> </li>
   <li> <a href="#TinyWebDB"> TinyWebDB </a> </li>
@@ -485,6 +486,45 @@ none
   <dt><code>SaveFile(text text, text fileName)</code></dt>
   <dd>Saves text to a file. If the filename begins with a slash (/) the file is written to the sdcard (for example, writing to /myFile.txt will write the file to /sdcard/myFile.txt). If the filename does not start with a slash, it will be written in the program's private data directory where it will not be accessible to other programs on the phone. There is a special exception for the AI Companion where these files are written to /sdcard/AppInventor/data to facilitate debugging. Note that this block will overwrite a file if it already exists. If you want to add content to a file use the append block.</dd>
 </dl>
+
+<h2 id="FirebaseDB">FirebaseDB</h2>
+
+<p>Non-visible component that communicates with Firebase to store and retrieve information.</p>
+<p><a href="/reference/other/firebase.html" target="_blank">Additional Information</a></p>
+
+<h3>Properties</h3>
+<dl>
+  <dt><code>DeveloperBucket</code> (designer only)</dt>
+  <dd></dd>
+  <dt><code>FirebaseToken</code> (designer only)</dt>
+  <dd></dd>
+  <dt><code>FirebaseURL</code></dt>
+  <dd>Gets the URL for this FirebaseDB.</dd>
+  <dt><code>ProjectBucket</code></dt>
+  <dd>Gets the ProjectBucket for this FirebaseDB.</dd>
+</dl>
+
+<h3>Events</h3>
+<dl>
+  <dt><code>DataChanged(text tag, any value)</code></dt>
+  <dd>Indicates that the data in the Firebase has changed.
+ Launches an event with the tag and value that have been updated.</dd>
+  <dt><code>FirebaseError(text message)</code></dt>
+  <dd>Indicates that the communication with the Firebase signaled an error.</dd>
+  <dt><code>GotValue(text tag, any value)</code></dt>
+  <dd>Indicates that a GetValue request has succeeded.</dd>
+</dl>
+
+<h3>Methods</h3>
+<dl>
+  <dt><code>GetValue(text tag, any valueIfTagNotThere)</code></dt>
+  <dd>GetValue asks Firebase to get the value stored under the given tag.
+ It will pass valueIfTagNotThere to GotValue if there is no value stored
+ under the tag.</dd>
+  <dt><code>StoreValue(text tag, any valueToStore)</code></dt>
+  <dd>Asks Firebase to store the given value under the given tag.</dd>
+</dl>
+
 <h2 id="FusionTablesControl">FusionTablesControl</h2>
 
 <p>A non-visible component that communicates with Google Fusion
