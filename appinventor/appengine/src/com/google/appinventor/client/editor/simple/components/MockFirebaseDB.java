@@ -68,7 +68,22 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
     AsyncCallback<String> callback = new AsyncCallback<String>() {
       @Override
       public void onSuccess(String JWT) {
-        changeProperty(PROPERTY_NAME_FIREBASE_TOKEN, JWT);
+        String oldJWT = getPropertyValue(PROPERTY_NAME_FIREBASE_TOKEN);
+        // Only set a new token if one wasn't already loaded.
+        //
+        // Normally this code is invoked early in component creation
+        // default values are then set here. If a project is being
+        // loaded, the properties saved in the project file will
+        // be loaded later. However in this case, we are in a
+        // callback which is often invoked *after* the project has
+        // been loaded. We don't want to over-write a user supplied
+        // token, so we only store then one we fetched if there isn't
+        // one already there. This is a bit of a kludge, but I haven't
+        // figured out a better way without making larger scale
+        // alterations to Mock instantiation --Jeff
+        if (oldJWT.equals("")) {
+          changeProperty(PROPERTY_NAME_FIREBASE_TOKEN, JWT);
+        }
       }
 
       @Override
@@ -95,17 +110,17 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
     }
   }
 
-  /**
-   * Enforces the invisibility of the "DeveloperBucket" and "FirebaseToken"
-   * properties.
-   *
-   * @param  propertyName the name of the property to check
-   * @return true for a visible property, false for an invisible property
-   */
-  @Override
-  protected boolean isPropertyVisible(String propertyName) {
-    return !propertyName.equals(PROPERTY_NAME_DEVELOPER_BUCKET)
-        && !propertyName.equals(PROPERTY_NAME_FIREBASE_TOKEN)
-        && super.isPropertyVisible(propertyName);
-  }
+  // /**
+  //  * Enforces the invisibility of the "DeveloperBucket" and "FirebaseToken"
+  //  * properties.
+  //  *
+  //  * @param  propertyName the name of the property to check
+  //  * @return true for a visible property, false for an invisible property
+  //  */
+  // @Override
+  // protected boolean isPropertyVisible(String propertyName) {
+  //   return !propertyName.equals(PROPERTY_NAME_DEVELOPER_BUCKET)
+  //       && !propertyName.equals(PROPERTY_NAME_FIREBASE_TOKEN)
+  //       && super.isPropertyVisible(propertyName);
+  // }
 }
