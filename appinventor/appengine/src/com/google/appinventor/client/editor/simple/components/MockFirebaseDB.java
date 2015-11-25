@@ -83,6 +83,7 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
         // alterations to Mock instantiation --Jeff
         if (oldJWT.equals("")) {
           changeProperty(PROPERTY_NAME_FIREBASE_TOKEN, JWT);
+          onPropertyChange(PROPERTY_NAME_FIREBASE_TOKEN, JWT);
         }
       }
 

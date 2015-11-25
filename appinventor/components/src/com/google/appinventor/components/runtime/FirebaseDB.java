@@ -92,8 +92,6 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
     developerBucket = ""; // set dynamically in the Designer
     projectBucket = ""; // given a dynamic default value in the Designer
     firebaseToken = ""; // set dynamically in the Designer
-    //    jis: Commented out.
-    //    myFirebase = new Firebase(firebaseURL + "developers/" + developerBucket + projectBucket);
 
     childListener = new ChildEventListener() {
       // Retrieve new posts as they are added to the Firebase.
@@ -149,6 +147,7 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
     authListener = new Firebase.AuthStateListener() {
       @Override
       public void onAuthStateChanged(AuthData data) {
+        Log.i(LOG_TAG, "onAuthStateChanged: data = " + data);
         if (data == null) {
           myFirebase.authWithCustomToken(firebaseToken, new Firebase.AuthResultHandler() {
             @Override
@@ -164,9 +163,6 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
         }
       }
     };
-
-    //    myFirebase.addAuthStateListener(authListener);
-    //    myFirebase.addChildEventListener(childListener);
   }
 
   /**
@@ -274,15 +270,8 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
       myFirebase.removeAuthStateListener(authListener);
     }
 
-    if(firebaseURL.equals(DEFAULT_URL)) {
-      myFirebase = new Firebase(firebaseURL + "developers/" + developerBucket + projectBucket);
-    } else {
-      myFirebase = new Firebase(firebaseURL + projectBucket);
-    }
-
-    // add listeners to the new Firebase path
-    myFirebase.addChildEventListener(childListener);
-    myFirebase.addAuthStateListener(authListener);
+    myFirebase = null;
+    connectFirebase();          // Reconnect to Firebase with new parameters
   }
 
   /*
@@ -438,4 +427,44 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
     // Invoke the application's "FirebaseError" event handler
     EventDispatcher.dispatchEvent(this, "FirebaseError", message);
   }
+
+  private void connectFirebase() {
+    if(firebaseURL.equals(DEFAULT_URL)) {
+      myFirebase = new Firebase(firebaseURL + "developers/" + developerBucket + projectBucket);
+    } else {
+      myFirebase = new Firebase(firebaseURL + projectBucket);
+    }
+    // add listeners to the new Firebase path
+    myFirebase.addChildEventListener(childListener);
+    myFirebase.addAuthStateListener(authListener);
+  }
+
+  /**
+   * Unauthenticate from Firebase.
+   *
+   * Firebase keeps track of credentials in a cache in shared_prefs
+   * It will re-use these credentials as long as they are valid. Given
+   * That we retrieve a FirebaseToken with a version long life, this will
+   * effectively be forever. Shared_prefs survive an application update
+   * and depending on how backup is configured on a device, it might survive
+   * an application removal and reinstallation.
+   *
+   * Normally this is not a problem, however if we change the credentials
+   * used, for example the App author is switching from one Firebase account
+   * to another, or invalided their firebase.secret, this cached credential
+   * is invalid, but will continue to be used, which results in errors.
+   *
+   * This function permits us to unauthenticate, which tosses the cached
+   * credentials. The next time authentication is needed we will use our
+   * current FirebaseToken and get fresh credentials.
+   */
+
+  @SimpleFunction
+  public void Unauthenticate() {
+    if (myFirebase == null) {
+      connectFirebase();
+    }
+    myFirebase.unauth();
+  }
+
 }
