@@ -62,7 +62,15 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
       projectName = currentProject.name;
     }
 
-    changeProperty(PROPERTY_NAME_DEVELOPER_BUCKET, devBucket + "/");
+    // We use the "super" for the developer bucket here because we
+    // override the changeProperty method to ignore setting the developer
+    // bucket. The idea here is to set it here to a value based on the
+    // person's userid (email address) but fail to load whatever value
+    // is in the project file. By doing this people can put projects
+    // in the Gallery which use the FirebaseDB component and have the
+    // developer bucket get changed to the current user when they download
+    // the project from the Gallery.
+    super.changeProperty(PROPERTY_NAME_DEVELOPER_BUCKET, devBucket + "/");
     changeProperty(PROPERTY_NAME_PROJECT_BUCKET, projectName);
 
     AsyncCallback<String> callback = new AsyncCallback<String>() {
@@ -111,17 +119,55 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
     }
   }
 
+  /**
+   * Enforces the invisibility of the "DeveloperBucket" and "FirebaseToken"
+   * properties.
+   *
+   * @param  propertyName the name of the property to check
+   * @return true for a visible property, false for an invisible property
+   */
+  @Override
+  protected boolean isPropertyVisible(String propertyName) {
+    return !propertyName.equals(PROPERTY_NAME_DEVELOPER_BUCKET)
+        && super.isPropertyVisible(propertyName);
+  }
+
+  /**
+   * Changes the value of a component property.
+   * This version ignores the developer bucket. So its value
+   * is *not* loaded from the project
+   *
+   * @param name  property name
+   * @param value  new property value
+   *
+   */
+  @Override
+  public void changeProperty(String name, String value) {
+    if (name.equals(PROPERTY_NAME_DEVELOPER_BUCKET)) {
+      return;
+    } else {
+      super.changeProperty(name, value);
+    }
+  }
+
+
+  // Commented out because non-persistent properties are not output
+  // during Yail generation.
   // /**
-  //  * Enforces the invisibility of the "DeveloperBucket" and "FirebaseToken"
-  //  * properties.
+  //  * Arranges that the Developer Bucket property is not persisted.
+  //  * We only use this property when the Firebase URL is set to its default
+  //  * value. In this case the developer bucket MUST be set to an value
+  //  * which is based on the current logged in use. Only this user can fetch
+  //  * a Firebase token which will grant access to the objects in the
+  //  * developer bucket.
   //  *
-  //  * @param  propertyName the name of the property to check
-  //  * @return true for a visible property, false for an invisible property
+  //  * If the user sets up their own Firebase account, this property is
+  //  * not used at all.
   //  */
   // @Override
-  // protected boolean isPropertyVisible(String propertyName) {
+  // public boolean isPropertyPersisted(String propertyName) {
   //   return !propertyName.equals(PROPERTY_NAME_DEVELOPER_BUCKET)
-  //       && !propertyName.equals(PROPERTY_NAME_FIREBASE_TOKEN)
-  //       && super.isPropertyVisible(propertyName);
+  //       && super.isPropertyPersisted(propertyName);
   // }
+
 }

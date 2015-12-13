@@ -171,9 +171,14 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
    * @return the URL for this Firebase
    */
   @SimpleProperty(category = PropertyCategory.BEHAVIOR,
-      description = "Gets the URL for this FirebaseDB.")
+    description = "Gets the URL for this FirebaseDB.",
+    userVisible = false)
   public String FirebaseURL() {
-    return firebaseURL;
+    if (firebaseURL.equals(DEFAULT_URL)) {
+      return "DEFAULT";
+    } else {
+      return firebaseURL;
+    }
   }
 
   /**
@@ -184,11 +189,15 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
    *
    * @param url the URL for the Firebase
    */
-  @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING,
-      defaultValue = DEFAULT_URL)
+  @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_FIREBASE_URL,
+    defaultValue = "DEFAULT")
   @SimpleProperty(description = "Sets the URL for this FirebaseDB.")
   public void FirebaseURL(String url) {
-    firebaseURL = url;
+    if (url.equals("DEFAULT")) {
+      firebaseURL = DEFAULT_URL;
+    } else {
+      firebaseURL = url;
+    }
     resetListener();
   }
 
