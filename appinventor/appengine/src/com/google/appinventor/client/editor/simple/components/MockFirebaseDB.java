@@ -30,6 +30,7 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
   private static final String PROPERTY_NAME_DEVELOPER_BUCKET = "DeveloperBucket";
   private static final String PROPERTY_NAME_PROJECT_BUCKET = "ProjectBucket";
   private static final String PROPERTY_NAME_FIREBASE_TOKEN = "FirebaseToken";
+  private static final String PROPERTY_NAME_FIREBASE_URL = "FirebaseURL";
   private static final FirebaseAuthServiceAsync AUTH_SVC = GWT.create(FirebaseAuthService.class);
   private static boolean warningGiven = false; // Whether or not we have given experimental warning
 
@@ -77,7 +78,12 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
       @Override
       public void onSuccess(String JWT) {
         String oldJWT = getPropertyValue(PROPERTY_NAME_FIREBASE_TOKEN);
-        // Only set a new token if one wasn't already loaded.
+        String FirebaseURL = getPropertyValue(PROPERTY_NAME_FIREBASE_URL);
+        // Only set a new token if one wasn't already loaded OR if
+        // we are using the default FirebaseURL in which case the new
+        // token will always be correct, potentially replacing a bad
+        // value if a project is imported that originally was exported
+        // by a different user
         //
         // Normally this code is invoked early in component creation
         // default values are then set here. If a project is being
@@ -89,7 +95,7 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
         // one already there. This is a bit of a kludge, but I haven't
         // figured out a better way without making larger scale
         // alterations to Mock instantiation --Jeff
-        if (oldJWT.equals("")) {
+        if (oldJWT.equals("") || FirebaseURL.equals("DEFAULT")) {
           changeProperty(PROPERTY_NAME_FIREBASE_TOKEN, JWT);
           onPropertyChange(PROPERTY_NAME_FIREBASE_TOKEN, JWT);
         }
