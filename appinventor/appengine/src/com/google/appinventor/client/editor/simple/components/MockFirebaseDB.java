@@ -35,6 +35,7 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
   private static final String PROPERTY_NAME_PROJECT_BUCKET = "ProjectBucket";
   private static final String PROPERTY_NAME_FIREBASE_TOKEN = "FirebaseToken";
   private static final String PROPERTY_NAME_FIREBASE_URL = "FirebaseURL";
+  private static final String PROPERTY_NAME_DEFAULT_URL = "DefaultURL";
   private static final FirebaseAuthServiceAsync AUTH_SVC = GWT.create(FirebaseAuthService.class);
   private static boolean warningGiven = false; // Whether or not we have given experimental warning
 
@@ -79,6 +80,14 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
     // the project from the Gallery.
     super.changeProperty(PROPERTY_NAME_DEVELOPER_BUCKET, devBucket + "/");
     changeProperty(PROPERTY_NAME_PROJECT_BUCKET, projectName);
+
+    // The default URL is loaded from the system config which in turn is
+    // is loaded from the "Flag" module which reads properties from
+    // appengine-web.xml (in the App Engine version). The standalone version
+    // stores it in appinventor.xml (at least for now)
+    String defaultURL = Ode.getInstance().getSystemConfig().getFirebaseURL();
+    changeProperty(PROPERTY_NAME_DEFAULT_URL, defaultURL);
+    OdeLog.log("Default Firebase URL = " + defaultURL);
 
     AsyncCallback<String> callback = new AsyncCallback<String>() {
       @Override
@@ -141,7 +150,8 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
   @Override
   protected boolean isPropertyVisible(String propertyName) {
     return !propertyName.equals(PROPERTY_NAME_DEVELOPER_BUCKET)
-        && super.isPropertyVisible(propertyName);
+      && !propertyName.equals(PROPERTY_NAME_DEFAULT_URL)
+      && super.isPropertyVisible(propertyName);
   }
 
   /**
@@ -208,7 +218,8 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
    */
   @Override
   public boolean isPropertyPersisted(String propertyName) {
-    if (propertyName.equals(PROPERTY_NAME_DEVELOPER_BUCKET)) {
+    if (propertyName.equals(PROPERTY_NAME_DEVELOPER_BUCKET) ||
+      propertyName.equals(PROPERTY_NAME_DEFAULT_URL)) {
       return false;
     } else if (propertyName.equals(PROPERTY_NAME_FIREBASE_TOKEN)) {
       // We keep track of whether or not to persist the FirebaseToken property
@@ -221,7 +232,8 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
   @Override
   public boolean isPropertyforYail(String propertyName) {
     if (propertyName.equals(PROPERTY_NAME_DEVELOPER_BUCKET) ||
-      (propertyName.equals(PROPERTY_NAME_FIREBASE_TOKEN))) {
+      (propertyName.equals(PROPERTY_NAME_FIREBASE_TOKEN)) ||
+      (propertyName.equals(PROPERTY_NAME_DEFAULT_URL))) {
       return true;
     }
     return super.isPropertyforYail(propertyName);

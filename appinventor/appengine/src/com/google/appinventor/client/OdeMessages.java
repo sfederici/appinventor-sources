@@ -5637,4 +5637,8 @@ public interface OdeMessages extends Messages {
   @Description("Used by the MockFirebaseDB to display default checkbox")
   String useDefault();
 
+  @DefaultMessage("DefaultURL")
+  @Description("")
+  String DefaultURLProperties();
+
 }

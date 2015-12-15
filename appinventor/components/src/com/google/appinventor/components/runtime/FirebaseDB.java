@@ -60,10 +60,9 @@ import java.util.concurrent.atomic.AtomicReference;
 public class FirebaseDB extends AndroidNonvisibleComponent implements Component {
 
   private static final String LOG_TAG = "Firebase";
-  private static final String DEFAULT_URL =
-      "";
-
-  private String firebaseURL;
+  private String firebaseURL = null;
+  private String defaultURL = null;
+  private boolean useDefault = true;
   private String developerBucket;
   private String projectBucket;
   private String firebaseToken;
@@ -88,7 +87,6 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
     this.activity = container.$context();
     Firebase.setAndroidContext(activity);
 
-    firebaseURL = DEFAULT_URL;
     developerBucket = ""; // set dynamically in the Designer
     projectBucket = ""; // given a dynamic default value in the Designer
     firebaseToken = ""; // set dynamically in the Designer
@@ -174,7 +172,7 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
     description = "Gets the URL for this FirebaseDB.",
     userVisible = false)
   public String FirebaseURL() {
-    if (firebaseURL.equals(DEFAULT_URL)) {
+    if (useDefault) {
       return "DEFAULT";
     } else {
       return firebaseURL;
@@ -194,11 +192,27 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
   @SimpleProperty(description = "Sets the URL for this FirebaseDB.")
   public void FirebaseURL(String url) {
     if (url.equals("DEFAULT")) {
-      firebaseURL = DEFAULT_URL;
+      if (!useDefault) {        // If we weren't setup for the default
+        useDefault = true;
+        if (defaultURL == null) { // Not setup yet
+          Log.d(LOG_TAG, "FirebaseURL called before DefaultURL (should not happen!)");
+        } else {
+          firebaseURL = defaultURL;
+          resetListener();
+        }
+      } else {
+        firebaseURL = defaultURL; // Should already be the case
+      }
     } else {
-      firebaseURL = url;
+      useDefault = false;
+      if (firebaseURL.equals(url)) {
+        return;                 // Nothing to do
+      } else {
+        firebaseURL = url;
+        useDefault = false;
+        resetListener();
+      }
     }
-    resetListener();
   }
 
   /**
@@ -438,7 +452,7 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
   }
 
   private void connectFirebase() {
-    if(firebaseURL.equals(DEFAULT_URL)) {
+    if(useDefault) {
       myFirebase = new Firebase(firebaseURL + "developers/" + developerBucket + projectBucket);
     } else {
       myFirebase = new Firebase(firebaseURL + projectBucket);
@@ -474,6 +488,24 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
       connectFirebase();
     }
     myFirebase.unauth();
+  }
+
+  // This is a non-documented property because it is hidden in the
+  // UI. Its purpose in life is to transmit the default firebase URL
+  // from the system into the Companion or packaged app. The Default
+  // URL is set in appengine-web.xml (the firebase.url property). It
+  // is sent to the client from the server via the system config call
+  // and sent hear from MockFirebaseDB.java
+
+  @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_STRING)
+  @SimpleProperty(category = PropertyCategory.BEHAVIOR,
+    userVisible = false)
+  public void DefaultURL(String url) {
+    defaultURL = url;
+    if (useDefault) {
+      firebaseURL = defaultURL;
+      resetListener();
+    }
   }
 
 }
