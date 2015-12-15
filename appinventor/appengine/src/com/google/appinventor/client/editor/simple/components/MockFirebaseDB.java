@@ -10,12 +10,16 @@ import com.google.appinventor.client.Ode;
 import com.google.appinventor.client.editor.FileEditor;
 import com.google.appinventor.client.editor.simple.SimpleEditor;
 import com.google.appinventor.client.output.OdeLog;
+import com.google.appinventor.client.widgets.properties.EditableProperty;
 import com.google.appinventor.shared.rpc.components.FirebaseAuthService;
 import com.google.appinventor.shared.rpc.components.FirebaseAuthServiceAsync;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
+
+
 
 /**
  * Mock for the non-visible FirebaseDB component. This needs a separate mock
@@ -33,6 +37,8 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
   private static final String PROPERTY_NAME_FIREBASE_URL = "FirebaseURL";
   private static final FirebaseAuthServiceAsync AUTH_SVC = GWT.create(FirebaseAuthService.class);
   private static boolean warningGiven = false; // Whether or not we have given experimental warning
+
+  private boolean persistToken = false;
 
   /**
    * Creates a new instance of a non-visible component whose icon is
@@ -151,29 +157,74 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
   public void changeProperty(String name, String value) {
     if (name.equals(PROPERTY_NAME_DEVELOPER_BUCKET)) {
       return;
+    } else if (name.equals(PROPERTY_NAME_FIREBASE_URL)) {
+      onPropertyChange(name, value);
+    }
+    super.changeProperty(name, value);
+  }
+
+  // We provide our own onPropertyChange to catch the case
+  // where the FirebaseURL is changed to/from the DEFAULT value.
+  // This effects the persistability (is that a word?) of the FirebaseToken
+  // property. If we are using a private Firebase Account, we want to persis
+  // the FirebaseToken. Otherwise we do not.
+  @Override
+  public void onPropertyChange(String propertyName, String newValue) {
+    if (propertyName.equals(PROPERTY_NAME_FIREBASE_URL)) {
+      // If this is the DEFAULT URL, then make the FirebaseToken property
+      // non-persistant, but output it in YAIL
+      EditableProperty firebaseToken = properties.getProperty(PROPERTY_NAME_FIREBASE_TOKEN);
+      int tokenType = firebaseToken.getType();
+      if (newValue.equals("DEFAULT")) {
+        persistToken = false;
+        tokenType |= EditableProperty.TYPE_NONPERSISTED;
+        tokenType |= EditableProperty.TYPE_DOYAIL;
+      } else {
+        tokenType &= ~EditableProperty.TYPE_NONPERSISTED;
+        persistToken = true;
+      }
+      firebaseToken.setType(tokenType);
+      // Need to fire this change to mark the form dirty when we change the type
+      // of the property
+      onPropertyChange(PROPERTY_NAME_FIREBASE_TOKEN, firebaseToken.getValue());
+    }
+    super.onPropertyChange(propertyName, newValue);
+  }
+
+  /**
+   * Arranges that the Developer Bucket property is not persisted.
+   * We only use this property when the Firebase URL is set to its default
+   * value. In this case the developer bucket MUST be set to an value
+   * which is based on the current logged in use. Only this user can fetch
+   * a Firebase token which will grant access to the objects in the
+   * developer bucket.
+   *
+   * If the user sets up their own Firebase account, this property is
+   * not used at all.
+   *
+   * We also do not persist the FirebaseToken iff we are using the
+   * default Firebase account.
+   *
+   */
+  @Override
+  public boolean isPropertyPersisted(String propertyName) {
+    if (propertyName.equals(PROPERTY_NAME_DEVELOPER_BUCKET)) {
+      return false;
+    } else if (propertyName.equals(PROPERTY_NAME_FIREBASE_TOKEN)) {
+      // We keep track of whether or not to persist the FirebaseToken property
+      return persistToken;
     } else {
-      super.changeProperty(name, value);
+      return super.isPropertyPersisted(propertyName);
     }
   }
 
-
-  // Commented out because non-persistent properties are not output
-  // during Yail generation.
-  // /**
-  //  * Arranges that the Developer Bucket property is not persisted.
-  //  * We only use this property when the Firebase URL is set to its default
-  //  * value. In this case the developer bucket MUST be set to an value
-  //  * which is based on the current logged in use. Only this user can fetch
-  //  * a Firebase token which will grant access to the objects in the
-  //  * developer bucket.
-  //  *
-  //  * If the user sets up their own Firebase account, this property is
-  //  * not used at all.
-  //  */
-  // @Override
-  // public boolean isPropertyPersisted(String propertyName) {
-  //   return !propertyName.equals(PROPERTY_NAME_DEVELOPER_BUCKET)
-  //       && super.isPropertyPersisted(propertyName);
-  // }
+  @Override
+  public boolean isPropertyforYail(String propertyName) {
+    if (propertyName.equals(PROPERTY_NAME_DEVELOPER_BUCKET) ||
+      (propertyName.equals(PROPERTY_NAME_FIREBASE_TOKEN))) {
+      return true;
+    }
+    return super.isPropertyforYail(propertyName);
+  }
 
 }
