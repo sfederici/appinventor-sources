@@ -55,7 +55,7 @@ import org.json.JSONException;
     "retrieve information.",
     designerHelpDescription = "Non-visible component that communicates with a Firebase" +
         " to store and retrieve information.",
-    category = ComponentCategory.STORAGE,
+    category = ComponentCategory.EXPERIMENTAL,
     nonVisible = true,
     iconName = "images/firebaseDB.png")
 @SimpleObject

@@ -126,20 +126,22 @@ public class MockFirebaseDB extends MockNonVisibleComponent {
     AUTH_SVC.getToken(projectName, callback);
   }
 
-  /**
-   * Called when the component is dropped in the Designer window
-   * we give a warning that firebase is still experimental.
-   */
+  // Commented out. We are just putting FirebaseDB in the "Experimental"
+  // Category for now
+  // /**
+  //  * Called when the component is dropped in the Designer window
+  //  * we give a warning that firebase is still experimental.
+  //  */
 
-  @Override
-  public void onCreateFromPalette() {
-    if (!warningGiven) {
-      warningGiven = true;
-      Ode.getInstance().warningDialog("There be Dragons here!", "FirebaseDB is an experimental feature " +
-        "which may change in the future or break. Packaged Apps built with this component may not " +
-        "function into the indefinite future.", "OK");
-    }
-  }
+  // @Override
+  // public void onCreateFromPalette() {
+  //   if (!warningGiven) {
+  //     warningGiven = true;
+  //     Ode.getInstance().warningDialog("There be Dragons here!", "FirebaseDB is an experimental feature " +
+  //       "which may change in the future or break. Packaged Apps built with this component may not " +
+  //       "function into the indefinite future.", "OK");
+  //   }
+  // }
 
   /**
    * Enforces the invisibility of the "DeveloperBucket" and "FirebaseToken"
