@@ -47,6 +47,7 @@ import org.json.JSONException;
  *
  * @author kasmus@mit.edu (Kristin Asmus)
  * @author will2596@gmail.com (William Byrne) (default Firebase partitioning and user authentication)
+ * @author jis@mit.edu (Jeffrey I. Schiller) (defaultURL setup at runtime, other cleanup)
  */
 
 @DesignerComponent(version = YaVersion.FIREBASE_COMPONENT_VERSION,

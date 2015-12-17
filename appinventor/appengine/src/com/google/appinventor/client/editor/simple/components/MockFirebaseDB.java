@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.Widget;
  * given dynamic default values.
  *
  * @author will2596@gmail.com (William Byrne)
+ * @author jis@mit.edu (Jeffrey I. Schiller)
  */
 public class MockFirebaseDB extends MockNonVisibleComponent {
 
