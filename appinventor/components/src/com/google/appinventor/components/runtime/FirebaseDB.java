@@ -1,11 +1,14 @@
 // -*- mode: java; c-basic-offset: 2; -*-
-// Copyright 2009-2011 Google, All Rights reserved
-// Copyright 2011-2012 MIT, All rights reserved
+// Copyright 2015 MIT, All rights reserved
 // Released under the Apache License, Version 2.0
 // http://www.apache.org/licenses/LICENSE-2.0
 
 package com.google.appinventor.components.runtime;
 
+
+import android.app.Activity;
+import android.os.Handler;
+import android.util.Log;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.ChildEventListener;
@@ -13,6 +16,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+
 import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
@@ -28,13 +32,11 @@ import com.google.appinventor.components.common.YaVersion;
 import com.google.appinventor.components.runtime.errors.YailRuntimeError;
 import com.google.appinventor.components.runtime.util.JsonUtil;
 import com.google.appinventor.components.runtime.util.SdkLevel;
-import org.json.JSONException;
-
-import android.util.Log;
-import android.app.Activity;
-import android.os.Handler;
 
 import java.util.concurrent.atomic.AtomicReference;
+
+import org.json.JSONException;
+
 
 /**
  * The Firebase component communicates with a Web service to store
