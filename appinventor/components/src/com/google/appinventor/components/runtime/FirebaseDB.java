@@ -494,7 +494,8 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
   @SimpleFunction(description = "If you are having difficulty with the Companion and you " +
     "are switching between different Firebase accounts, you may need to use this function " +
     "to clear internal Firebase caches. You can just use the \"Do It\" function on this block " +
-    "in the blocks editor.")
+    "in the blocks editor. Note: You should not normally need to use this block as part of " +
+    "an application.")
   public void Unauthenticate() {
     if (myFirebase == null) {
       connectFirebase();
