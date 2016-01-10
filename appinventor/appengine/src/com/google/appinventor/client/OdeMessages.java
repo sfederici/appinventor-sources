@@ -1428,7 +1428,7 @@ public interface OdeMessages extends Messages {
       "Any projects that you package in the future will be signed using your new keystore file. " +
       "Changing the keystore affects the ability to reinstall previously installed apps. If you " +
       "are not sure that you want to do this, please read the documentation about keystores by " +
-      "clicking above on \"Learn\", then \"Troubleshooting\", and then \"Keystores and Signing " +
+      "clicking above on \"Help\", then \"Troubleshooting\", and then \"Keystores and Signing " +
       "of Applications\"\n\n" +
       "There is no undo for overwriting your keystore file.")
   @Description("Confirmation message shown when keystore is about to be overwritten.")
@@ -1447,7 +1447,7 @@ public interface OdeMessages extends Messages {
       "Any projects that you package in the future will be signed using your new keystore file. " +
       "Changing the keystore affects the ability to reinstall previously installed apps. If you " +
       "are not sure that you want to do this, please read the documentation about keystores by " +
-      "clicking above on \"Learn\", then \"Troubleshooting\", and then \"Keystores and Signing " +
+      "clicking above on \"Help\", then \"Troubleshooting\", and then \"Keystores and Signing " +
       "of Applications\"\n\n" +
       "There is no undo for deleting your keystore file.")
   @Description("Confirmation message for delete keystore")
@@ -2223,6 +2223,10 @@ public interface OdeMessages extends Messages {
   @Description("")
   String barcodeScannerComponentPallette();
 
+  @DefaultMessage("GyroscopeSensor")
+  @Description("")
+  String gyroscopeSensorComponentPallette();
+
   @DefaultMessage("LocationSensor")
   @Description("")
   String locationSensorComponentPallette();
@@ -2584,7 +2588,7 @@ public interface OdeMessages extends Messages {
   @Description("")
   String MessageProperties();
 
-  @DefaultMessage("MinimumInterval")
+  @DefaultMessage("MinimumInterval (ms)")
   @Description("")
   String MinimumIntervalProperties();
 
@@ -2851,6 +2855,10 @@ public interface OdeMessages extends Messages {
   @DefaultMessage("Rotates")
   @Description("")
   String RotatesProperties();
+
+  @DefaultMessage("RotationAngle")
+  @Description("")
+  String RotationAngleProperties();
 
   @DefaultMessage("Selection")
   @Description("")
@@ -3204,13 +3212,25 @@ public interface OdeMessages extends Messages {
   @Description("")
   String XAccelProperties();
 
+  @DefaultMessage("XAngularVelocity")
+  @Description("")
+  String XAngularVelocityProperties();
+
   @DefaultMessage("YAccel")
   @Description("")
   String YAccelProperties();
 
+  @DefaultMessage("YAngularVelocity")
+  @Description("")
+  String YAngularVelocityProperties();
+
   @DefaultMessage("ZAccel")
   @Description("")
   String ZAccelProperties();
+
+  @DefaultMessage("ZAngularVelocity")
+  @Description("")
+  String ZAngularVelocityProperties();
 
   @DefaultMessage("Width")
   @Description("")
@@ -3821,6 +3841,22 @@ public interface OdeMessages extends Messages {
   @Description("")
   String textToTranslateParams();
 
+  @DefaultMessage("xAngularVelocity")
+  @Description("")
+  String xAngularVelocityParams();
+
+  @DefaultMessage("yAngularVelocity")
+  @Description("")
+  String yAngularVelocityParams();
+
+  @DefaultMessage("zAngularVelocity")
+  @Description("")
+  String zAngularVelocityParams();
+
+  @DefaultMessage("timestamp")
+  @Description("")
+  String timestampParams();
+
   //Events
   @DefaultMessage("AccelerationChanged")
   @Description("")
@@ -4205,6 +4241,10 @@ public interface OdeMessages extends Messages {
   @DefaultMessage("Shaking")
   @Description("")
   String ShakingEvents();
+
+  @DefaultMessage("GyroscopeChanged")
+  @Description("")
+  String GyroscopeChangedEvents();
 
   //Methods
   @DefaultMessage("ResolveActivity")
@@ -5129,6 +5169,10 @@ public interface OdeMessages extends Messages {
   @Description("")
   String GameClientHelpStringComponentPallette();
 
+  @DefaultMessage("<p>Non-visible component that can measure angular velocity in three dimensions in units of degrees per second.</p><p>In order to function, the component must have its <code>Enabled</code> property set to True, and the device must have a gyroscope sensor.</p>")
+  @Description("")
+  String GyroscopeSensorHelpStringComponentPallette();
+
   @DefaultMessage("<p>A formatting element in which to place components that should be displayed from left to right.  If you wish to have components displayed one over another, use <code>VerticalArrangement</code> instead.</p>")
   @Description("")
   String HorizontalArrangementHelpStringComponentPallette();
@@ -5449,18 +5493,19 @@ public interface OdeMessages extends Messages {
   String blocksTruncatedDialogText();
 
   @DefaultMessage("<p>It appears that <b>" + "%1" +
-                "</b> has had all blocks removed. Either you removed them intentionally, or this is " +
-                "the result of a bug in our system.</p><p>" +
-                "<ul><li>Select \"OK, save the empty screen\" to continue to save the empty screen</li>" +
-                "<li>Select \"No, Do Not Save\" below to restore the previously saved version</li></ul></p>")
+      "</b> has had all blocks removed.</p><p>" +
+      "<ul><li>You can save the enpty screen, and then all those blocks will be " +
+      "permanently gone from the project.</li>" +
+      "<li>Alternatively, you can restore the previously saved version " +
+      "of the project.</li></ul></p>")
   @Description("")
   String blocksTruncatedDialogMessage();
 
-  @DefaultMessage("OK, save the empty screen")
+  @DefaultMessage("Save the empty screen now.")
   @Description("")
   String blocksTruncatedDialogButtonSave();
 
-  @DefaultMessage("No, Do Not Save")
+  @DefaultMessage("Restore the previous version.")
   @Description("")
   String blocksTruncatedDialogButtonNoSave();
 
@@ -5511,6 +5556,10 @@ public interface OdeMessages extends Messages {
   @DefaultMessage("Svenska")
   @Description("")
   String SwitchToSwedish();
+
+  @DefaultMessage("Português do Brasil")
+  @Description("")
+  String switchToPortugueseBR();
 
   @DefaultMessage("Progress Bar")
   @Description("")
@@ -5640,5 +5689,13 @@ public interface OdeMessages extends Messages {
   @DefaultMessage("DefaultURL")
   @Description("")
   String DefaultURLProperties();
+
+  @DefaultMessage("Warning!")
+  @Description("")
+  String warningDialogTitle();
+
+  @DefaultMessage("The useFront property has been removed from your Camera Component")
+  @Description("")
+  String useFrontDeprecated();
 
 }
