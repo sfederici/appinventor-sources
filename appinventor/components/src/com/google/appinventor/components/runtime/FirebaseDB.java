@@ -263,8 +263,10 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
       defaultValue = "")
   @SimpleProperty(description = "Sets the ProjectBucket for this FirebaseDB.")
   public void ProjectBucket(String bucket) {
-    projectBucket = bucket;
-    resetListener();
+    if (!projectBucket.equals(bucket)) {
+      projectBucket = bucket;
+      resetListener();
+    }
   }
 
   /**
