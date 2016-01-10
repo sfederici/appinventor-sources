@@ -83,7 +83,7 @@ public class FirebaseDB extends AndroidNonvisibleComponent implements Component 
    */
   public FirebaseDB(ComponentContainer container) {
     super(container.$form());
-    // We use androidUIHandler when we set up operations that run asynchronously 
+    // We use androidUIHandler when we set up operations that run asynchronously
     // in a separate thread, but which themselves want to cause actions
     // back in the UI thread.  They do this by posting those actions
     // to androidUIHandler.
